@@ -45,6 +45,8 @@ function signUp(req, res) {
   }
 }
 
+
+
 function signIn(req, res) {
   const params = req.body;
   const email = params.email.toLowerCase();
