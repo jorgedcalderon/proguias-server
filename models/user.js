@@ -11,17 +11,7 @@ const UserSchame = Schema({
   password: String,
   role: String,
   active: Boolean,
-  avatar: String,
-  exp: Number,
-  licencia: String,
-  idiomas: String,
-  fono: String,
-  certs: [
-    {
-      name: String,
-      vigencia: Date
-    }
-  ]
+  avatar: String
 });
 
 module.exports = mongoose.model("User", UserSchame);

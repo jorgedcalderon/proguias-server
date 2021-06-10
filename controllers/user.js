@@ -51,6 +51,7 @@ function signIn(req, res) {
   const params = req.body;
   const email = params.email.toLowerCase();
   const password = params.password;
+  const guia = false;
 
   User.findOne({ email }, (err, userStored) => {
     if (err) {
@@ -71,7 +72,7 @@ function signIn(req, res) {
                 .send({ code: 200, message: "El usuario no se ha activado." });
             } else {
               res.status(200).send({
-                accessToken: jwt.createAccessToken(userStored),
+                accessToken: jwt.createAccessToken(userStored, guia),
                 refreshToken: jwt.createRefreshToken(userStored)
               });
             }

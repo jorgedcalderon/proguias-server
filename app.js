@@ -7,6 +7,7 @@ const { API_VERSION } = require("./config");
 // Load routings
 const authRoutes = require("./routers/auth");
 const userRoutes = require("./routers/user");
+const guiaRoutes = require("./routers/guia");
 const menuRoutes = require("./routers/menu");
 const newsletterRoutes = require("./routers/newsletter");
 const courseRoutes = require("./routers/course");
@@ -30,6 +31,7 @@ app.use((req, res, next) => {
 // Router Basic
 app.use(`/api/${API_VERSION}`, authRoutes);
 app.use(`/api/${API_VERSION}`, userRoutes);
+app.use(`/api/${API_VERSION}`, guiaRoutes);
 app.use(`/api/${API_VERSION}`, menuRoutes);
 app.use(`/api/${API_VERSION}`, newsletterRoutes);
 app.use(`/api/${API_VERSION}`, courseRoutes);

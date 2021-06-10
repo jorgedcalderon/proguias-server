@@ -3,8 +3,9 @@ const moment = require("moment");
 
 const SECRET_KEY = "gR7cH9Svfj8JLe4c186Ghs48hheb3902nh5DsA";
 
-exports.createAccessToken = function(user) {
+exports.createAccessToken = function(user, guia) {
   const payload = {
+    isGuia: guia,
     id: user._id,
     name: user.name,
     lastname: user.lastname,
