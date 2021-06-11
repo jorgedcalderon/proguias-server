@@ -10,4 +10,20 @@ const api = express.Router();
 api.post("/sign-up-guia", GuiaController.signUpGuia);
 api.post("/sign-in-guia", GuiaController.signInGuia);
 
+api.get("/guias", [md_auth.ensureAuth], GuiaController.getGuias);
+api.get("/guias-active", [md_auth.ensureAuth], GuiaController.getGuiasActive);
+api.put(
+  "/upload-avatar/:id",
+  [md_auth.ensureAuth, md_upload_avatar],
+  GuiaController.uploadAvatar
+);
+api.get("/get-avatar/:avatarName", GuiaController.getAvatar);
+api.put("/update-guia/:id", [md_auth.ensureAuth], GuiaController.updateGuia);
+api.put(
+  "/activate-guia/:id",
+  [md_auth.ensureAuth],
+  GuiaController.activateGuia
+);
+api.delete("/delete-guia/:id", [md_auth.ensureAuth], GuiaController.deleteGuia);
+
 module.exports = api;
