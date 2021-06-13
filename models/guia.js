@@ -19,7 +19,9 @@ const GuiaSchema = Schema({
   certs: [
     {
       name: String,
-      vigencia: Date
+      path: String,
+      vigencia: Date,
+      activa: Boolean
     }
   ]
 });

@@ -12,6 +12,7 @@ api.post("/sign-in-guia", GuiaController.signInGuia);
 
 api.get("/guias", [md_auth.ensureAuth], GuiaController.getGuias);
 api.get("/guias-active", [md_auth.ensureAuth], GuiaController.getGuiasActive);
+
 api.put(
   "/upload-avatar/:id",
   [md_auth.ensureAuth, md_upload_avatar],
@@ -25,5 +26,8 @@ api.put(
   GuiaController.activateGuia
 );
 api.delete("/delete-guia/:id", [md_auth.ensureAuth], GuiaController.deleteGuia);
+api.post("/sign-up-admin-guia", [md_auth.ensureAuth], GuiaController.signUpAdminGuia);
+// api.put("/add-competencia/:id", [md_auth.ensureAuth], GuiaController.addCompetencia);
+// api.put("/upload-cert/:id", [md_auth.ensureAuth], GuiaController.uploadCert)
 
 module.exports = api;

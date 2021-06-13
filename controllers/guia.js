@@ -12,7 +12,7 @@ function signUpGuia(req, res) {
     guia.lastname = lastname;
     guia.email = email.toLowerCase();
     guia.role = "guia";
-    guia.active = false;
+    guia.name = false;
   
     if (!password || !repeatPassword) {
       res.status(404).send({ message: "Las contraseñas son obligatorias." });
@@ -64,7 +64,7 @@ function signInGuia(req, res) {
             } else if (!check) {
               res.status(404).send({ message: "La contraseña es incorrecta." });
             } else {
-              if (!userStored.active) {
+              if (!userStored.name) {
                 res
                   .status(200)
                   .send({ code: 200, message: "El usuario no se ha activado." });
@@ -91,10 +91,10 @@ function signInGuia(req, res) {
     });
   }
   
-  function getGuiasActive(req, res) {
+  function getGuiasname(req, res) {
     const query = req.query;
   
-    Guia.find({ active: query.active }).then(users => {
+    Guia.find({ name: query.name }).then(users => {
       if (!users) {
         res.status(404).send({ message: "No se ha encontrado ningun usuario." });
       } else {
@@ -199,16 +199,16 @@ function signInGuia(req, res) {
   
   function activateGuia(req, res) {
     const { id } = req.params;
-    const { active } = req.body;
+    const { name } = req.body;
   
-    Guia.findByIdAndUpdate(id, { active }, (err, userStored) => {
+    Guia.findByIdAndUpdate(id, { name }, (err, userStored) => {
       if (err) {
         res.status(500).send({ message: "Error del servidor." });
       } else {
         if (!userStored) {
           res.status(404).send({ message: "No se ha encontrado el usuario." });
         } else {
-          if (active === true) {
+          if (name === true) {
             res.status(200).send({ message: "Usuario activado correctamente." });
           } else {
             res
@@ -238,6 +238,117 @@ function signInGuia(req, res) {
     });
   }
 
+  function signUpAdminGuia(req, res) {
+    const guia = new Guia();
+  
+    const { name, lastname, email, role, password } = req.body;
+    guia.name = name;
+    guia.lastname = lastname;
+    guia.email = email.toLowerCase();
+    guia.role = role;
+    guia.name = true;
+  
+    if (!password) {
+      res.status(500).send({ message: "La contraseña es obligatoria. " });
+    } else {
+      bcrypt.hash(password, null, null, (err, hash) => {
+        if (err) {
+          res.status(500).send({ message: "Error al encriptar la contraseña." });
+        } else {
+          guia.password = hash;
+  
+          guia.save((err, userStored) => {
+            if (err) {
+              res.status(500).send({ message: "El usuario ya existe." });
+            } else {
+              if (!userStored) {
+                res
+                  .status(500)
+                  .send({ message: "Error al crear el nuevo usuario." });
+              } else {
+                // res.status(200).send({ user: userStored });
+                res
+                  .status(200)
+                  .send({ message: "Usuario creado correctamente." });
+              }
+            }
+          });
+        }
+      });
+    }
+  }
+
+// function addCompetencia(req, res) {
+//     const { id } = req.params;
+//     const { name } = req.body;
+//     let userData = name;
+  
+//     Guia.findByIdAndUpdate(id, {'certs.name': userData}, (err, userUpdate) => {
+//       if (err) {
+//         res.status(500).send({ message: "Error del servidor." });
+//       } else {
+//         if (!userUpdate) {
+//           res
+//             .status(404)
+//             .send({ message: "No se ha encontrado ningun usuario." });
+//         } else {
+//           res.status(200).send({ message: "Usuario actualizado correctamente." });
+//         }
+//       }
+//     });
+//   }
+
+  // function uploadCert(req, res) {
+  //   const params = req.params;
+  
+  //   Guia.findById({ _id: params.id }, (err, userData) => {
+  //     if (err) {
+  //       res.status(500).send({ message: "Error del servidor." });
+  //     } else {
+  //       if (!userData) {
+  //         res.status(404).send({ message: "No se ha encontrado ningun usuario." });
+  //       } else {
+  //         let user = userData;
+  
+  //         if (req.files) {
+  //           let filePath = req.files.certs.path;
+  //           let fileSplit = filePath.split("/");
+  //           let fileName = fileSplit[2];
+  
+  //           let extSplit = fileName.split(".");
+  //           let fileExt = extSplit[1];
+  
+  //           if (fileExt !== "pdf" && fileExt !== "png" && fileExt !== "jpg") {
+  //             res.status(400).send({
+  //               message:
+  //                 "La extension de la imagen no es valida. (Extensiones permitidas: pdf, png y jpg)"
+  //             });
+  //           } else {
+  //             user.cert.path = fileName;
+  //             Guia.findByIdAndUpdate(
+  //               { _id: params.id },
+  //               user,
+  //               (err, userResult) => {
+  //                 if (err) {
+  //                   res.status(500).send({ message: "Error del servidor." });
+  //                 } else {
+  //                   if (!userResult) {
+  //                     res
+  //                       .status(404)
+  //                       .send({ message: "No se ha encontrado ningun usuario." });
+  //                   } else {
+  //                     res.status(200).send({ avatarName: fileName });
+  //                   }
+  //                 }
+  //               }
+  //             );
+  //           }
+  //         }
+  //       }
+  //     }
+  //   });
+  // }
+
 
 
 module.exports = 
@@ -245,10 +356,11 @@ module.exports =
     signUpGuia,
     signInGuia,
     getGuias,
-    getGuiasActive,
+    getGuiasname,
     uploadAvatar,
     getAvatar,
     updateGuia,
     activateGuia,
-    deleteGuia
+    deleteGuia,
+    signUpAdminGuia
 };
