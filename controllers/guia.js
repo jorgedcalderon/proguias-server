@@ -91,10 +91,10 @@ function signInGuia(req, res) {
     });
   }
   
-  function getGuiasname(req, res) {
+  function getGuiasActive(req, res) {
     const query = req.query;
   
-    Guia.find({ name: query.name }).then(users => {
+    Guia.find({ active: query.active }).then(users => {
       if (!users) {
         res.status(404).send({ message: "No se ha encontrado ningun usuario." });
       } else {
@@ -199,16 +199,16 @@ function signInGuia(req, res) {
   
   function activateGuia(req, res) {
     const { id } = req.params;
-    const { name } = req.body;
+    const { active } = req.body;
   
-    Guia.findByIdAndUpdate(id, { name }, (err, userStored) => {
+    User.findByIdAndUpdate(id, { active }, (err, userStored) => {
       if (err) {
         res.status(500).send({ message: "Error del servidor." });
       } else {
         if (!userStored) {
           res.status(404).send({ message: "No se ha encontrado el usuario." });
         } else {
-          if (name === true) {
+          if (active === true) {
             res.status(200).send({ message: "Usuario activado correctamente." });
           } else {
             res
@@ -356,7 +356,7 @@ module.exports =
     signUpGuia,
     signInGuia,
     getGuias,
-    getGuiasname,
+    getGuiasActive,
     uploadAvatar,
     getAvatar,
     updateGuia,
