@@ -278,6 +278,24 @@ function signInGuia(req, res) {
     }
   }
 
+  function getGuia(req, res) {
+    const { url } = req.params;
+  
+    Guia.findOne({ url }, (err, guiaStored) => {
+      if (err) {
+        res.status(500).send({ code: 500, message: "Error del servidor." });
+      } else {
+        if (!guiaStored) {
+          res
+            .status(404)
+            .send({ code: 404, message: "No se ha encontrado ningun post." });
+        } else {
+          res.status(200).send({ code: 200, guia: guiaStored });
+        }
+      }
+    });
+  }
+
 // function addCompetencia(req, res) {
 //     const { id } = req.params;
 //     const { name } = req.body;
@@ -362,5 +380,6 @@ module.exports =
     updateGuia,
     activateGuia,
     deleteGuia,
-    signUpAdminGuia
+    signUpAdminGuia,
+    getGuia
 };

@@ -12,6 +12,7 @@ api.post("/sign-in-guia", GuiaController.signInGuia);
 
 api.get("/guias", [md_auth.ensureAuth], GuiaController.getGuias);
 api.get("/guias-active", [md_auth.ensureAuth], GuiaController.getGuiasActive);
+api.get("/get-guia", [md_auth.ensureAuth], GuiaController.getGuia);
 
 api.put(
   "/upload-avatar/:id",
