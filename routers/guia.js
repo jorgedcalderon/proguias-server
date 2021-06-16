@@ -31,4 +31,6 @@ api.post("/sign-up-admin-guia", [md_auth.ensureAuth], GuiaController.signUpAdmin
 // api.put("/add-competencia/:id", [md_auth.ensureAuth], GuiaController.addCompetencia);
 // api.put("/upload-cert/:id", [md_auth.ensureAuth], GuiaController.uploadCert)
 
+api.get("/get-guias-pag", GuiaController.getGuiasPag);
+
 module.exports = api;

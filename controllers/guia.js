@@ -81,7 +81,7 @@ function signInGuia(req, res) {
     });
   }
 
-  function getGuias(req, res) {
+function getGuias(req, res) {
     Guia.find().then(users => {
       if (!users) {
         res.status(404).send({ message: "No se ha encontrado ningun usuario." });
@@ -89,7 +89,7 @@ function signInGuia(req, res) {
         res.status(200).send({ users });
       }
     });
-  }
+}
   
   function getGuiasActive(req, res) {
     const query = req.query;
@@ -288,9 +288,34 @@ function signInGuia(req, res) {
         if (!guiaStored) {
           res
             .status(404)
-            .send({ code: 404, message: "No se ha encontrado ningun post." });
+            .send({ code: 404, message: "No se ha encontrado ningun Guia." });
         } else {
           res.status(200).send({ code: 200, guia: guiaStored });
+        }
+      }
+    });
+  }
+
+  function getGuiasPag(req, res) {
+    const { page = 1, limit = 10 } = req.query;
+    // const expe = guia.exp;
+  
+    const options = {
+      page,
+      limit: parseInt(limit)
+      // sort: { expe: "desc" }
+    };
+  
+    Guia.paginate({}, options, (err, guiasStored) => {
+      if (err) {
+        res.status(500).send({ code: 500, message: "Error del servidor." });
+      } else {
+        if (!guiasStored) {
+          res
+            .status(404)
+            .send({ code: 404, message: "No se ha encontrado ningun guía." });
+        } else {
+          res.status(200).send({ code: 200, guias: guiasStored });
         }
       }
     });
@@ -367,8 +392,6 @@ function signInGuia(req, res) {
   //   });
   // }
 
-
-
 module.exports = 
 {
     signUpGuia,
@@ -381,5 +404,6 @@ module.exports =
     activateGuia,
     deleteGuia,
     signUpAdminGuia,
-    getGuia
+    getGuia,
+    getGuiasPag
 };
