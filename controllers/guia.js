@@ -7,12 +7,13 @@ const Guia = require("../models/guia");
 function signUpGuia(req, res) {
     const guia = new Guia();
   
-    const { name, lastname, email, password, repeatPassword } = req.body;
+    const { name, lastName, email, password, repeatPassword } = req.body;
     guia.name = name;
-    guia.lastname = lastname;
+    guia.lastname = lastName;
     guia.email = email.toLowerCase();
     guia.role = "guia";
-    guia.name = false;
+    guia.active = false;
+    
   
     if (!password || !repeatPassword) {
       res.status(404).send({ message: "Las contraseñas son obligatorias." });
@@ -27,6 +28,8 @@ function signUpGuia(req, res) {
               .send({ message: "Error al encriptar la contraseña." });
           } else {
             guia.password = hash;
+            guia.url=`${lastName}-${name}`
+            console.log(guia);
   
             guia.save((err, userStored) => {
               if (err) {
@@ -91,7 +94,7 @@ function getGuias(req, res) {
     });
 }
   
-  function getGuiasActive(req, res) {
+function getGuiasActive(req, res) {
     const query = req.query;
   
     Guia.find({ active: query.active }).then(users => {
@@ -101,7 +104,7 @@ function getGuias(req, res) {
         res.status(200).send({ users });
       }
     });
-  }
+}
   
   function uploadAvatar(req, res) {
     const params = req.params;
@@ -302,11 +305,13 @@ function getGuias(req, res) {
   
     const options = {
       page,
-      limit: parseInt(limit)
+      limit: parseInt(limit),
       // sort: { expe: "desc" }
+      
+
     };
   
-    Guia.paginate({}, options, (err, guiasStored) => {
+    Guia.paginate({active: true}, options, (err, guiasStored) => {
       if (err) {
         res.status(500).send({ code: 500, message: "Error del servidor." });
       } else {

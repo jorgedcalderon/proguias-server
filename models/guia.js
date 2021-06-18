@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-// const mongoosePaginate = require("mongoose-paginate");
+const mongoosePaginate = require("mongoose-paginate");
 
 const Schema = mongoose.Schema;
 
@@ -18,6 +18,7 @@ const GuiaSchema = Schema({
   licencia: String,
   idiomas: String,
   fono: String,
+  url: String,
   certs: [
     {
       name: String,
@@ -27,6 +28,6 @@ const GuiaSchema = Schema({
     }
   ]
 });
-// GuiaSchema.plugin(mongoosePaginate);
+GuiaSchema.plugin(mongoosePaginate);
 
 module.exports = mongoose.model("Guia", GuiaSchema);
