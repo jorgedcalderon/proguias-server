@@ -15,11 +15,11 @@ api.get("/guias-active", [md_auth.ensureAuth], GuiaController.getGuiasActive);
 api.get("/get-guia/:url", GuiaController.getGuia);
 
 api.put(
-  "/upload-avatar/:id",
+  "/upload-avatar-guia/:id",
   [md_auth.ensureAuth, md_upload_avatar],
   GuiaController.uploadAvatar
 );
-api.get("/get-avatar/:avatarName", GuiaController.getAvatar);
+api.get("/get-avatar-guia/:avatarName", GuiaController.getAvatar);
 api.put("/update-guia/:id", [md_auth.ensureAuth], GuiaController.updateGuia);
 api.put(
   "/activate-guia/:id",

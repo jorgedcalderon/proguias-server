@@ -28,7 +28,7 @@ function signUpGuia(req, res) {
               .send({ message: "Error al encriptar la contraseña." });
           } else {
             guia.password = hash;
-            guia.url=`${lastName}-${name}`
+            guia.url=`${lastName.toLowerCase()}-${name.toLowerCase()}`
             console.log(guia);
   
             guia.save((err, userStored) => {
@@ -114,13 +114,13 @@ function getGuiasActive(req, res) {
         res.status(500).send({ message: "Error del servidor." });
       } else {
         if (!userData) {
-          res.status(404).send({ message: "Nose ha encontrado ningun usuario." });
+          res.status(404).send({ message: "No se ha encontrado ningun usuario." });
         } else {
           let user = userData;
   
           if (req.files) {
             let filePath = req.files.avatar.path;
-            let fileSplit = filePath.split("/");
+            let fileSplit = filePath.split("\\");
             let fileName = fileSplit[2];
   
             let extSplit = fileName.split(".");
@@ -204,7 +204,7 @@ function getGuiasActive(req, res) {
     const { id } = req.params;
     const { active } = req.body;
   
-    User.findByIdAndUpdate(id, { active }, (err, userStored) => {
+    Guia.findByIdAndUpdate(id, { active }, (err, userStored) => {
       if (err) {
         res.status(500).send({ message: "Error del servidor." });
       } else {
@@ -249,7 +249,8 @@ function getGuiasActive(req, res) {
     guia.lastname = lastname;
     guia.email = email.toLowerCase();
     guia.role = role;
-    guia.name = true;
+    guia.active = true;
+    guia.url=`${lastname.toLowerCase()}-${name.toLowerCase()}`;
   
     if (!password) {
       res.status(500).send({ message: "La contraseña es obligatoria. " });
