@@ -13,6 +13,7 @@ api.post("/sign-in-guia", GuiaController.signInGuia);
 api.get("/guias", [md_auth.ensureAuth], GuiaController.getGuias);
 api.get("/guias-active", [md_auth.ensureAuth], GuiaController.getGuiasActive);
 api.get("/get-guia/:url", GuiaController.getGuia);
+api.get("/get-guia-email/:email", GuiaController.getGuiaEmail);
 
 api.put(
   "/upload-avatar-guia/:id",

@@ -18,7 +18,10 @@ const GuiaSchema = Schema({
   licencia: String,
   idiomas: String,
   fono: String,
-  url: String,
+  url: {
+    type: String,
+    unique: true
+  }, 
   certs: [
     {
       name: String,

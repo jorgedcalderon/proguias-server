@@ -300,6 +300,24 @@ function getGuiasActive(req, res) {
     });
   }
 
+  function getGuiaEmail(req, res) {
+    const { email } = req.params;
+  
+    Guia.findOne({ email }, (err, guiaStored) => {
+      if (err) {
+        res.status(500).send({ code: 500, message: "Error del servidor." });
+      } else {
+        if (!guiaStored) {
+          res
+            .status(404)
+            .send({ code: 404, message: "No se ha encontrado ningun Guia." });
+        } else {
+          res.status(200).send({ code: 200, guia: guiaStored });
+        }
+      }
+    });
+  }
+
   function getGuiasPag(req, res) {
     const { page = 1, limit = 10 } = req.query;
     // const expe = guia.exp;
@@ -411,5 +429,6 @@ module.exports =
     deleteGuia,
     signUpAdminGuia,
     getGuia,
+    getGuiaEmail,
     getGuiasPag
 };
