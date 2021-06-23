@@ -24,7 +24,10 @@ const GuiaSchema = Schema({
   }, 
   certs: [
     {
-      name: String,
+      name: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Compe'
+      },
       path: String,
       vigencia: Date,
       activa: Boolean
