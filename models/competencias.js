@@ -1,9 +1,9 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-const Schema = mongoose.Schema({
+const CompeSchema = Schema({
     name: String,
-    foto: Date,
+    foto: String,
     order: Number,
     activa: Boolean
 });
