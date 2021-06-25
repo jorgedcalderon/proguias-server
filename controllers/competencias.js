@@ -65,7 +65,7 @@ function getCompes(req, res) {
     const { id } = req.params;
     const { activa } = req.body;
   
-    Menu.findByIdAndUpdate(id, { activa }, (err, compeStored) => {
+    Compe.findByIdAndUpdate(id, { activa: activa }, (err, compeStored) => {
       if (err) {
         res.status(500).send({ message: "Error del servidor." });
       } else {
@@ -81,6 +81,7 @@ function getCompes(req, res) {
       }
     });
   }
+
   
   function deleteCompe(req, res) {
     const { id } = req.params;

@@ -345,6 +345,39 @@ function getGuiasActive(req, res) {
     });
   }
 
+   function findCompe(req, res) {
+    const { id } = req.params;
+    const { idCompe } = req.body;
+
+    let certFound = Guia.find({ "certs.name": idCompe });
+    console.log(certFound);
+  }
+
+  async function addCompe(req, res) {
+    const { id } = req.params;
+    const { idCompe } = req.body;
+
+    Guia.findByIdAndUpdate(id, { $push: { "certs.name": idCompe}},{ new: true, useFindAndModify: false }, (err, certStored) => {
+      if(err) {
+        res.status(500).send({
+          message: "Error del servidor."
+        });
+      } else {
+        if(!certStored) {
+          res.status(404).send({
+            message: "No se ha encontrado la certificacion."
+          });
+        } else {
+          res.status(200).send({
+            message: "Certificacion agregada correctamente."
+          });
+        }
+      }
+    });
+
+  }
+
+
 // function addCompetencia(req, res) {
 //     const { id } = req.params;
 //     const { name } = req.body;
@@ -430,5 +463,7 @@ module.exports =
     signUpAdminGuia,
     getGuia,
     getGuiaEmail,
-    getGuiasPag
+    getGuiasPag,
+    findCompe,
+    addCompe
 };
