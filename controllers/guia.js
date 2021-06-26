@@ -353,11 +353,39 @@ function getGuiasActive(req, res) {
     console.log(certFound);
   }
 
-  async function addCompe(req, res) {
+async function deleteCompe(req, res) {
+  const { id } = req.params;
+  const { idCompe } = req.body;
+  
+  await Guia.updateMany( {'certs': {$elemMatch:{name: idCompe}}}, {$pull : {certs: { name: idCompe } }}, (err, deleteCert) => {
+    if(err) {
+      res.status(500).send({
+        message: "Error del servidor."
+      });
+    } else {
+      if(!deleteCert) {
+        res.status(404).send({
+          message: "No se ha encontrado la certificacion."
+        });
+      } else {
+        res.status(200).send({
+          message: "Certificacion eliminada correctamente."
+        });
+      }
+    }
+    
+  }
+  );
+
+  
+}
+
+function addCompe(req, res) {
     const { id } = req.params;
     const { idCompe } = req.body;
+    const compe = {name: idCompe, activa: false};
 
-    Guia.findByIdAndUpdate(id, { $push: { "certs.name": idCompe}},{ new: true, useFindAndModify: false }, (err, certStored) => {
+    Guia.findByIdAndUpdate(id, { $push: {certs: compe}}, (err, certStored) => {
       if(err) {
         res.status(500).send({
           message: "Error del servidor."
@@ -465,5 +493,6 @@ module.exports =
     getGuiaEmail,
     getGuiasPag,
     findCompe,
-    addCompe
+    addCompe,
+    deleteCompe
 };

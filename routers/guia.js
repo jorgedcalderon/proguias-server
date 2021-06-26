@@ -32,6 +32,8 @@ api.put(
   [md_auth.ensureAuth],
   GuiaController.activateGuia
 );
+api.put("/delete-guia-compe/:id", [md_auth.ensureAuth], GuiaController.deleteCompe);
+
 api.delete("/delete-guia/:id", [md_auth.ensureAuth], GuiaController.deleteGuia);
 
 // api.put("/add-competencia/:id", [md_auth.ensureAuth], GuiaController.addCompetencia);
