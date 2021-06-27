@@ -101,10 +101,25 @@ function getCompes(req, res) {
     });
   }
 
+  function getCompesActiva(req, res) {
+    const query = req.query;
+  
+    Compe.find({ activa: query.activa }).then(compes => {
+      if (!compes) {
+        res.status(404).send({ message: "No se ha encontrado ninguna competencia." });
+      } else {
+        res.status(200).send({ compes: compes });
+      }
+    });
+}
+
+
+
 module.exports = {
     addCompe,
     getCompes,
     updateCompe,
     activateCompe,
-    deleteCompe
+    deleteCompe,
+    getCompesActiva
 };
