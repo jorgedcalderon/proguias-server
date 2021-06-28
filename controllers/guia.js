@@ -380,10 +380,10 @@ async function deleteCompe(req, res) {
   
 }
 
-function addCompe(req, res) {
+function asignarCompe(req, res) {
     const { id } = req.params;
     const { idCompe } = req.body;
-    const compe = {name: idCompe, activa: false};
+    const compe = {name: idCompe, activa: true};
 
     Guia.findByIdAndUpdate(id, { $push: {certs: compe}}, (err, certStored) => {
       if(err) {
@@ -493,6 +493,6 @@ module.exports =
     getGuiaEmail,
     getGuiasPag,
     findCompe,
-    addCompe,
+    asignarCompe,
     deleteCompe
 };

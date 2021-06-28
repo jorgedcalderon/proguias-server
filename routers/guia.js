@@ -10,7 +10,7 @@ const api = express.Router();
 api.post("/sign-up-guia", GuiaController.signUpGuia);
 api.post("/sign-in-guia", GuiaController.signInGuia);
 api.post("/sign-up-admin-guia", [md_auth.ensureAuth], GuiaController.signUpAdminGuia);
-api.post("/add-guia-compe/:id", [md_auth.ensureAuth], GuiaController.addCompe);
+api.post("/add-guia-compe/:id", [md_auth.ensureAuth], GuiaController.asignarCompe);
 
 api.get("/guias", [md_auth.ensureAuth], GuiaController.getGuias);
 api.get("/guias-active", [md_auth.ensureAuth], GuiaController.getGuiasActive);
