@@ -10,7 +10,7 @@ const api = express.Router();
 api.post("/sign-up-guia", GuiaController.signUpGuia);
 api.post("/sign-in-guia", GuiaController.signInGuia);
 api.post("/sign-up-admin-guia", [md_auth.ensureAuth], GuiaController.signUpAdminGuia);
-api.post("/add-guia-compe/:id", [md_auth.ensureAuth], GuiaController.asignarCompe);
+api.post("/find-compe/:id", [md_auth.ensureAuth], GuiaController.findCompe);
 
 api.get("/guias", [md_auth.ensureAuth], GuiaController.getGuias);
 api.get("/guias-active", [md_auth.ensureAuth], GuiaController.getGuiasActive);
@@ -18,7 +18,7 @@ api.get("/get-guia/:url", GuiaController.getGuia);
 api.get("/get-guia-email/:email", GuiaController.getGuiaEmail);
 api.get("/get-avatar-guia/:avatarName", GuiaController.getAvatar);
 api.get("/get-guias-pag", GuiaController.getGuiasPag);
-api.get("/find-compe", GuiaController.findCompe);
+
 
 api.put(
   "/upload-avatar-guia/:id",
@@ -33,6 +33,7 @@ api.put(
   GuiaController.activateGuia
 );
 api.put("/delete-guia-compe/:id", [md_auth.ensureAuth], GuiaController.deleteCompe);
+api.put("/add-guia-compe/:id", [md_auth.ensureAuth], GuiaController.asignarCompe);
 
 api.delete("/delete-guia/:id", [md_auth.ensureAuth], GuiaController.deleteGuia);
 

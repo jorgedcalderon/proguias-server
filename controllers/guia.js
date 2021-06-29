@@ -349,8 +349,27 @@ function getGuiasActive(req, res) {
     const { id } = req.params;
     const { idCompe } = req.body;
 
-    let certFound = Guia.find({ "certs.name": idCompe });
-    console.log(certFound);
+    const query = { '_id': id, 'certs.name': idCompe}
+
+    let certFound = Guia.findOne( query, (err, cert) => {
+      if(err) {
+        res.status(500).send({
+          message: "Error del servidor."
+        });
+      } else {
+        if(!cert) {
+          res.status(200).send({
+            cert: false
+          });
+        } else {
+          res.status(200).send({
+            cert: true,
+            datos: cert
+          });
+        }
+      }
+    });
+    
   }
 
 async function deleteCompe(req, res) {
