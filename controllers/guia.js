@@ -358,13 +358,12 @@ function getGuiasActive(req, res) {
         });
       } else {
         if(!cert) {
-          res.status(200).send({
+          res.status(201).send({
             cert: false
           });
         } else {
           res.status(200).send({
-            cert: true,
-            datos: cert
+            cert: true
           });
         }
       }
