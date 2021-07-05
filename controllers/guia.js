@@ -424,76 +424,57 @@ function asignarCompe(req, res) {
   }
 
 
-// function addCompetencia(req, res) {
-//     const { id } = req.params;
-//     const { name } = req.body;
-//     let userData = name;
-  
-//     Guia.findByIdAndUpdate(id, {'certs.name': userData}, (err, userUpdate) => {
-//       if (err) {
-//         res.status(500).send({ message: "Error del servidor." });
-//       } else {
-//         if (!userUpdate) {
-//           res
-//             .status(404)
-//             .send({ message: "No se ha encontrado ningun usuario." });
-//         } else {
-//           res.status(200).send({ message: "Usuario actualizado correctamente." });
-//         }
-//       }
-//     });
-//   }
+function subirCompe(req, res) {
+  const params = req.params;
 
-  // function uploadCert(req, res) {
-  //   const params = req.params;
   
-  //   Guia.findById({ _id: params.id }, (err, userData) => {
-  //     if (err) {
-  //       res.status(500).send({ message: "Error del servidor." });
-  //     } else {
-  //       if (!userData) {
-  //         res.status(404).send({ message: "No se ha encontrado ningun usuario." });
-  //       } else {
-  //         let user = userData;
+    Guia.findById({ _id: params.id }, (err, userData) => {
+      if (err) {
+        res.status(500).send({ message: "Error del servidor." });
+      } else {
+        if (!userData) {
+          res.status(404).send({ message: "No se ha encontrado ningun usuario." });
+        } else {
+          let user = userData;
   
-  //         if (req.files) {
-  //           let filePath = req.files.certs.path;
-  //           let fileSplit = filePath.split("/");
-  //           let fileName = fileSplit[2];
+          if (req.files) {
+            let filePath = req.files.compe.path;
+            let fileSplit = filePath.split("\\");
+            let fileName = fileSplit[2];
   
-  //           let extSplit = fileName.split(".");
-  //           let fileExt = extSplit[1];
+            let extSplit = fileName.split(".");
+            let fileExt = extSplit[1];
   
-  //           if (fileExt !== "pdf" && fileExt !== "png" && fileExt !== "jpg") {
-  //             res.status(400).send({
-  //               message:
-  //                 "La extension de la imagen no es valida. (Extensiones permitidas: pdf, png y jpg)"
-  //             });
-  //           } else {
-  //             user.cert.path = fileName;
-  //             Guia.findByIdAndUpdate(
-  //               { _id: params.id },
-  //               user,
-  //               (err, userResult) => {
-  //                 if (err) {
-  //                   res.status(500).send({ message: "Error del servidor." });
-  //                 } else {
-  //                   if (!userResult) {
-  //                     res
-  //                       .status(404)
-  //                       .send({ message: "No se ha encontrado ningun usuario." });
-  //                   } else {
-  //                     res.status(200).send({ avatarName: fileName });
-  //                   }
-  //                 }
-  //               }
-  //             );
-  //           }
-  //         }
-  //       }
-  //     }
-  //   });
-  // }
+            if (fileExt !== "pdf" && fileExt !== "png" && fileExt !== "jpg") {
+              res.status(400).send({
+                message:
+                  "La extension no es valida. (Extensiones permitidas: .pdf, .png y .jpg)"
+              });
+            } else {
+              let compeName = fileName;
+              Guia.findByIdAndUpdate(
+                { _id: params.id },
+                user,
+                (err, userResult) => {
+                  if (err) {
+                    res.status(500).send({ message: "Error del servidor." });
+                  } else {
+                    if (!userResult) {
+                      res
+                        .status(404)
+                        .send({ message: "No se ha encontrado ningun usuario." });
+                    } else {
+                      res.status(200).send({ avatarName: fileName });
+                    }
+                  }
+                }
+              );
+            }
+          }
+        }
+      }
+    });
+}
 
 module.exports = 
 {
@@ -512,5 +493,6 @@ module.exports =
     getGuiasPag,
     findCompe,
     asignarCompe,
-    deleteCompe
+    deleteCompe,
+    subirCompe
 };

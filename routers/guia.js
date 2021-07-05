@@ -4,6 +4,7 @@ const multipart = require("connect-multiparty");
 
 const md_auth = require("../middlewares/authenticated");
 const md_upload_avatar = multipart({ uploadDir: "./uploads/avatar" });
+const md_upload_compe = multipart({ uploadDir: "./uploads/competencias" });
 
 const api = express.Router();
 
@@ -25,7 +26,7 @@ api.put(
   [md_auth.ensureAuth, md_upload_avatar],
   GuiaController.uploadAvatar
 );
-
+api.put("/upload-compe-doc/:id", [md_auth.ensureAuth, md_upload_compe], GuiaController.subirCompe);
 api.put("/update-guia/:id", [md_auth.ensureAuth], GuiaController.updateGuia);
 api.put(
   "/activate-guia/:id",
