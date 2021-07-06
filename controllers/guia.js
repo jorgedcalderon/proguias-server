@@ -371,11 +371,11 @@ function getGuiasActive(req, res) {
     
   }
 
-async function deleteCompe(req, res) {
+function deleteCompe(req, res) {
   const { id } = req.params;
   const { idCompe } = req.body;
   
-  await Guia.updateMany( {'certs': {$elemMatch:{name: idCompe}}}, {$pull : {certs: { name: idCompe } }}, (err, deleteCert) => {
+  Guia.updateMany( {'_id': id, 'certs': {$elemMatch:{name: idCompe}}}, {$pull : {certs: { name: idCompe } }}, (err, deleteCert) => {
     if(err) {
       res.status(500).send({
         message: "Error del servidor."
@@ -425,56 +425,46 @@ function asignarCompe(req, res) {
 
 
 function subirCompe(req, res) {
-  const params = req.params;
+  const id = req.params.id;
+  const idCompe = req.params.idCompe;
 
-  
-    Guia.findById({ _id: params.id }, (err, userData) => {
-      if (err) {
-        res.status(500).send({ message: "Error del servidor." });
-      } else {
-        if (!userData) {
-          res.status(404).send({ message: "No se ha encontrado ningun usuario." });
+  if (req.files) {
+    let filePath = req.files.compe.path;
+    let fileSplit = filePath.split("\\");
+    let fileName = fileSplit[2];
+
+    let extSplit = fileName.split(".");
+    let fileExt = extSplit[1];
+
+    if (fileExt !== "pdf" && fileExt !== "png" && fileExt !== "jpg") {
+      res.status(400).send({
+        message:
+          "La extension no es valida. (Extensiones permitidas: .pdf, .png y .jpg)"
+      });
+    } else {
+      Guia.updateMany( {'_id': id, 'certs': {$elemMatch:{name: idCompe}}}, {$push : {'certs.$[elemMatch]': { path: fileName } }}, (err, uploadCert) => {
+        if(err) {
+          res.status(500).send({
+            message: "Error del servidor."
+          });
         } else {
-          let user = userData;
-  
-          if (req.files) {
-            let filePath = req.files.compe.path;
-            let fileSplit = filePath.split("\\");
-            let fileName = fileSplit[2];
-  
-            let extSplit = fileName.split(".");
-            let fileExt = extSplit[1];
-  
-            if (fileExt !== "pdf" && fileExt !== "png" && fileExt !== "jpg") {
-              res.status(400).send({
-                message:
-                  "La extension no es valida. (Extensiones permitidas: .pdf, .png y .jpg)"
-              });
-            } else {
-              let compeName = fileName;
-              Guia.findByIdAndUpdate(
-                { _id: params.id },
-                user,
-                (err, userResult) => {
-                  if (err) {
-                    res.status(500).send({ message: "Error del servidor." });
-                  } else {
-                    if (!userResult) {
-                      res
-                        .status(404)
-                        .send({ message: "No se ha encontrado ningun usuario." });
-                    } else {
-                      res.status(200).send({ avatarName: fileName });
-                    }
-                  }
-                }
-              );
-            }
+          if(!uploadCert){
+            res.status(404).send({
+              message: "No se ha encontrado la certificacion."
+            });
+          } else {
+            res.status(200).send({
+              message: "Certificacion agregada correctamente."
+            });
           }
-        }
-      }
-    });
+        } 
+        
+      })
+      
+    }
+  }
 }
+
 
 module.exports = 
 {

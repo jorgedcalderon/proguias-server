@@ -26,7 +26,7 @@ api.put(
   [md_auth.ensureAuth, md_upload_avatar],
   GuiaController.uploadAvatar
 );
-api.put("/upload-compe-doc/:id", [md_auth.ensureAuth, md_upload_compe], GuiaController.subirCompe);
+api.put("/upload-compe-doc/:id/:idCompe", [md_auth.ensureAuth, md_upload_compe], GuiaController.subirCompe);
 api.put("/update-guia/:id", [md_auth.ensureAuth], GuiaController.updateGuia);
 api.put(
   "/activate-guia/:id",
