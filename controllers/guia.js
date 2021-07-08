@@ -427,11 +427,14 @@ function asignarCompe(req, res) {
 function subirCompe(req, res) {
   const id = req.params.id;
   const idCompe = req.params.idCompe;
-
+  const query = { '_id': id };
+ 
   if (req.files) {
     let filePath = req.files.compe.path;
     let fileSplit = filePath.split("\\");
     let fileName = fileSplit[2];
+    const updateDocument = { $set: { 'certs.idiomas': fileName}};
+
 
     let extSplit = fileName.split(".");
     let fileExt = extSplit[1];
@@ -442,7 +445,7 @@ function subirCompe(req, res) {
           "La extension no es valida. (Extensiones permitidas: .pdf, .png y .jpg)"
       });
     } else {
-      Guia.updateMany( {'_id': id, 'certs': {$elemMatch:{name: idCompe}}}, {$push : {'certs.$[elemMatch]': { path: fileName } }}, (err, uploadCert) => {
+      Guia.updateOne(query, updateDocument, (err, uploadCert) => {
         if(err) {
           res.status(500).send({
             message: "Error del servidor."
@@ -453,17 +456,18 @@ function subirCompe(req, res) {
               message: "No se ha encontrado la certificacion."
             });
           } else {
+            console.log(uploadCert);
             res.status(200).send({
               message: "Certificacion agregada correctamente."
             });
           }
         } 
-        
       })
       
     }
   }
 }
+
 
 
 module.exports = 
@@ -486,3 +490,6 @@ module.exports =
     deleteCompe,
     subirCompe
 };
+
+// Guia.updateMany( {'_id': id, 'certs': {$elemMatch:{name: idCompe}}}, {$push : {'certs.$[elemMatch]': { path: fileName } }}, (err, uploadCert) => {
+//   if(err) {
