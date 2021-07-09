@@ -427,13 +427,11 @@ function asignarCompe(req, res) {
 function subirCompe(req, res) {
   const id = req.params.id;
   const idCompe = req.params.idCompe;
-  const query = { '_id': id };
  
   if (req.files) {
     let filePath = req.files.compe.path;
     let fileSplit = filePath.split("\\");
     let fileName = fileSplit[2];
-    const updateDocument = { $set: { 'certs.idiomas': fileName}};
 
 
     let extSplit = fileName.split(".");
@@ -445,28 +443,43 @@ function subirCompe(req, res) {
           "La extension no es valida. (Extensiones permitidas: .pdf, .png y .jpg)"
       });
     } else {
-      Guia.updateOne(query, updateDocument, (err, uploadCert) => {
-        if(err) {
+      Guia.findOne({$or:[
+        {'_id': id},
+        {'certs': {$elemMatch: {name: idCompe}}}
+        ]}, (err, resultado) => {
+          if(err){
           res.status(500).send({
-            message: "Error del servidor."
+            message: err
           });
         } else {
-          if(!uploadCert){
+          if(!resultado){
             res.status(404).send({
-              message: "No se ha encontrado la certificacion."
+              message: "No se encontró ningún guía."
             });
           } else {
-            console.log(uploadCert);
             res.status(200).send({
-              message: "Certificacion agregada correctamente."
+              message: resultado
             });
           }
-        } 
+          
+        }
       })
       
     }
   }
 }
+
+// function borrarCompe(req, res) {
+//     const { id } = req.params;
+//     const { idCompe } = req.body;
+
+//     Guia.findOneAndUpdate({'_id': id, 'certs': {$elemMatch: {name: idCompe}}})
+// }
+
+// '_id': id, 'certs': {$elemMatch: {name: idCompe}}
+// $elemMatch: {'_id': id, 'certs.name': idCompe}
+
+
 
 
 
@@ -491,5 +504,8 @@ module.exports =
     subirCompe
 };
 
-// Guia.updateMany( {'_id': id, 'certs': {$elemMatch:{name: idCompe}}}, {$push : {'certs.$[elemMatch]': { path: fileName } }}, (err, uploadCert) => {
-//   if(err) {
+
+  
+
+    // Guia.findOneAndUpdate({'_id': id, 'certs': {$elemMatch: {name: idCompe}}},{$push: {'path': fileName}}, (err, resultado) => {
+    //   if(err) {
