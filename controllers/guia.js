@@ -443,10 +443,12 @@ function subirCompe(req, res) {
           "La extension no es valida. (Extensiones permitidas: .pdf, .png y .jpg)"
       });
     } else {
-      Guia.findOne({$or:[
+      Guia.findOneAndUpdate({$and:[
         {'_id': id},
-        {'certs': {$elemMatch: {name: idCompe}}}
-        ]}, (err, resultado) => {
+        {'certs.name': idCompe}
+        ]},{
+          $push: {'certs.path':  fileName}
+        }, (err, resultado) => {
           if(err){
           res.status(500).send({
             message: err
