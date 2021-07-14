@@ -443,11 +443,8 @@ function subirCompe(req, res) {
           "La extension no es valida. (Extensiones permitidas: .pdf, .png y .jpg)"
       });
     } else {
-      Guia.findOneAndUpdate({$and:[
-        {'_id': id},
-        {'certs.name': idCompe}
-        ]},{
-          $push: {'certs.path':  fileName}
+      Guia.findOneAndUpdate({'_id': id, 'certs.name':  idCompe},{
+          $set: {'certs.$.path':  fileName}
         }, (err, resultado) => {
           if(err){
           res.status(500).send({
@@ -469,6 +466,44 @@ function subirCompe(req, res) {
       
     }
   }
+}
+
+function getCompeDoc(req, res) {
+  const compeName = req.params.compeName;
+  const filePath = "./uploads/competencias/" + compeName;
+
+  fs.exists(filePath, exists => {
+    if (!exists) {
+      res.status(404).send({ message: "La competencia que buscas no existe." });
+    } else {
+      res.sendFile(path.resolve(filePath));
+    }
+  });
+}
+
+function getCerts(req, res) {
+  const { id } = req.params;
+  const { idCompe } = req.body;
+
+  Guia.find({'_id': id}, {'certs': {$elemMatch: {name: idCompe }}}, (err, certs) => {
+    if(err){
+      res.status(500).send({
+        code: 500,
+        message: err
+      });
+    } else {
+      if(!certs) {
+        res.status(404).send({
+          code: 404,
+          message: "No se han encontrado certificaciones"
+        });
+      } else {
+        res.status(200).send({
+          certs: certs[0].certs[0]
+        });
+      }
+    }
+  });
 }
 
 // function borrarCompe(req, res) {
@@ -503,7 +538,9 @@ module.exports =
     findCompe,
     asignarCompe,
     deleteCompe,
-    subirCompe
+    subirCompe,
+    getCompeDoc,
+    getCerts
 };
 
 
