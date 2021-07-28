@@ -12,6 +12,7 @@ api.post("/sign-up-guia", GuiaController.signUpGuia);
 api.post("/sign-in-guia", GuiaController.signInGuia);
 api.post("/sign-up-admin-guia", [md_auth.ensureAuth], GuiaController.signUpAdminGuia);
 api.post("/find-compe/:id", [md_auth.ensureAuth], GuiaController.findCompe);
+api.post("/get-certs/:id", [md_auth.ensureAuth], GuiaController.getCerts );
 
 api.get("/guias", [md_auth.ensureAuth], GuiaController.getGuias);
 api.get("/guias-active", [md_auth.ensureAuth], GuiaController.getGuiasActive);
@@ -19,9 +20,8 @@ api.get("/get-guia/:url", GuiaController.getGuia);
 api.get("/get-guia-email/:email", GuiaController.getGuiaEmail);
 api.get("/get-avatar-guia/:avatarName", GuiaController.getAvatar);
 api.get("/get-guias-pag", GuiaController.getGuiasPag);
-
 api.get("/get-compe-doc/:compeName", GuiaController.getCompeDoc );
-api.post("/get-certs/:id", [md_auth.ensureAuth], GuiaController.getCerts );
+
 
 
 api.put(
@@ -29,7 +29,7 @@ api.put(
   [md_auth.ensureAuth, md_upload_avatar],
   GuiaController.uploadAvatar
 );
-api.put("/upload-compe-doc/:id/:idCompe", [md_auth.ensureAuth, md_upload_compe], GuiaController.subirCompe);
+api.put("/subir-compe-doc/:id/:idCompe", [md_auth.ensureAuth, md_upload_compe], GuiaController.subirCompe);
 api.put("/update-guia/:id", [md_auth.ensureAuth], GuiaController.updateGuia);
 api.put(
   "/activate-guia/:id",
