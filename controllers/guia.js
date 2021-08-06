@@ -222,6 +222,29 @@ function getGuiasActive(req, res) {
       }
     });
   }
+
+  function activoGuia(req, res) {
+    const { id } = req.params;
+    const { activo } = req.body;
+  
+    Guia.findByIdAndUpdate(id, { activo }, (err, userStored) => {
+      if (err) {
+        res.status(500).send({ message: "Error del servidor." });
+      } else {
+        if (!userStored) {
+          res.status(404).send({ message: "No se ha encontrado el usuario." });
+        } else {
+          if (activo === true) {
+            res.status(200).send({ message: "Usuario activado correctamente." });
+          } else {
+            res
+              .status(200)
+              .send({ message: "Usuario desactivado correctamente." });
+          }
+        }
+      }
+    });
+  }
   
   function deleteGuia(req, res) {
     const { id } = req.params;
@@ -330,7 +353,7 @@ function getGuiasActive(req, res) {
 
     };
   
-    Guia.paginate({active: true}, options, (err, guiasStored) => {
+    Guia.paginate({activo: true}, options, (err, guiasStored) => {
       if (err) {
         res.status(500).send({ code: 500, message: "Error del servidor." });
       } else {
@@ -530,6 +553,7 @@ module.exports =
     getAvatar,
     updateGuia,
     activateGuia,
+    activoGuia,
     deleteGuia,
     signUpAdminGuia,
     getGuia,

@@ -36,6 +36,7 @@ api.put(
   [md_auth.ensureAuth],
   GuiaController.activateGuia
 );
+api.put("/activo-guia/:id", [md_auth.ensureAuth], GuiaController.activoGuia);
 api.put("/delete-guia-compe/:id", [md_auth.ensureAuth], GuiaController.deleteCompe);
 api.put("/add-guia-compe/:id", [md_auth.ensureAuth], GuiaController.asignarCompe);
 

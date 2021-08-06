@@ -12,6 +12,7 @@ const GuiaSchema = Schema({
   },
   password: String,
   active: Boolean,
+  activo: Boolean,
   role: String,
   avatar: String,
   expe: Number,
