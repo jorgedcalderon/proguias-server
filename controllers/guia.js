@@ -529,6 +529,30 @@ function getCerts(req, res) {
   });
 }
 
+function certsPopuladas(req, res) {
+  const { id } = req.params;
+
+  Guia.find({'_id': id}, {'certs': 1}).populate('certs.name').exec(function (err, certs) {
+    if(err){
+      res.status(500).send({
+        code: 500,
+        message: err
+      });
+    } else {
+      if(!certs) {
+        res.status(404).send({
+          code: 404,
+          message: "No se han encontrado certificaciones"
+        });
+      } else {
+        res.status(200).send({
+          certs: certs[0].certs
+        });
+      }
+    }
+  });
+}
+
 // function borrarCompe(req, res) {
 //     const { id } = req.params;
 //     const { idCompe } = req.body;
@@ -564,7 +588,8 @@ module.exports =
     deleteCompe,
     subirCompe,
     getCompeDoc,
-    getCerts
+    getCerts,
+    certsPopuladas
 };
 
 
