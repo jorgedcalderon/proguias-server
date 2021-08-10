@@ -13,6 +13,7 @@ api.post("/sign-in-guia", GuiaController.signInGuia);
 api.post("/sign-up-admin-guia", [md_auth.ensureAuth], GuiaController.signUpAdminGuia);
 api.post("/find-compe/:id", [md_auth.ensureAuth], GuiaController.findCompe);
 api.post("/get-certs/:id", [md_auth.ensureAuth], GuiaController.getCerts );
+api.post("/certs-populadas/:id", [md_auth.ensureAuth], GuiaController.certsPopuladas);
 
 api.get("/guias", [md_auth.ensureAuth], GuiaController.getGuias);
 api.get("/guias-active", [md_auth.ensureAuth], GuiaController.getGuiasActive);

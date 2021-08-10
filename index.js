@@ -7,7 +7,7 @@ mongoose.set("useFindAndModify", false);
 mongoose.set("useCreateIndex", true);
 
 mongoose.connect(
-  `mongodb+srv://davidcalderon:ACv0Vu3M5XJrsajh@proguias.wao3y.mongodb.net/Proguias?retryWrites=true&w=majority`,
+  `mongodb://${IP_SERVER}:${PORT_DB}/proguias`,
   { useNewUrlParser: true, useUnifiedTopology: true },
   (err, res) => {
     if (err) {
