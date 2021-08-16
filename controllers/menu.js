@@ -27,12 +27,14 @@ function getMenus(req, res) {
     .exec((err, menusStored) => {
       if (err) {
         res.status(500).send({ message: "Error del servidor." });
+        console.log(err);
       } else {
         if (!menusStored) {
           res.status(404).send({
             message: "No se ha encontrado ningun elemento en le menu."
           });
         } else {
+          console.log(menusStored);
           res.status(200).send({ menu: menusStored });
         }
       }

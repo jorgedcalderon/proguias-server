@@ -1,9 +1,9 @@
 {
   "name": "agustin-navarro-galdon-backend",
   "version": "0.0.1",
-  "description": "Backend para la web www.AgustinNavarroGaldon.com",
+  "description": "Backend para la web proguias.cl",
   "main": "index.js",
-  "author": "Agustin Navarro Galdon",
+  "author": "David Calderon",
   "license": "MIT",
   "dependencies": {
     "bcrypt-nodejs": "^0.0.3",
@@ -18,6 +18,6 @@
     "nodemon": "^1.19.2"
   },
   "scripts": {
-    "start": "node index.js"
+    "start": "nodemon index.js"
   }
 }
