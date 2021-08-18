@@ -113,10 +113,13 @@ function getGuiasActive(req, res) {
     Guia.findById({ _id: params.id }, (err, userData) => {
       if (err) {
         res.status(500).send({ message: "Error del servidor." });
+        console.log(err);
       } else {
         if (!userData) {
           res.status(404).send({ message: "No se ha encontrado ningun usuario." });
+          console.log(userData);
         } else {
+          console.log(userData);
           let user = userData;
   
           if (req.files) {
