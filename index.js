@@ -1,13 +1,13 @@
 const mongoose = require("mongoose");
 const app = require("./app");
-const port = process.env.PORT || 3977;
+const port = process.env.PORT || 3500;
 const { API_VERSION, IP_SERVER, PORT_DB } = require("./config");
 
 mongoose.set("useFindAndModify", false);
 mongoose.set("useCreateIndex", true);
 
 mongoose.connect(
-  `mongodb+srv://davidcalderon:ACv0Vu3M5XJrsajh@proguias.wao3y.mongodb.net/proguias?retryWrites=true&w=majority`,
+  `mongodb://${IP_SERVER}:${PORT_DB}/proguias`,
   { useNewUrlParser: true, useUnifiedTopology: true },
   (err, res) => {
     if (err) {
