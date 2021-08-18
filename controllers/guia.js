@@ -33,7 +33,8 @@ function signUpGuia(req, res) {
   
             guia.save((err, userStored) => {
               if (err) {
-                res.status(500).send({ message: err });
+                res.status(500).send({ message: "Error del servidor." });
+                console.log(err);
               } else {
                 if (!userStored) {
                   res.status(404).send({ message: "Error al crear el usuario." });
