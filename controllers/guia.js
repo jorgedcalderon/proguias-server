@@ -291,11 +291,15 @@ function getGuiasActive(req, res) {
           guia.save((err, userStored) => {
             if (err) {
               res.status(500).send({ message: "El usuario ya existe." });
+              console.log("Error 500:");
+              console.log(err);
             } else {
               if (!userStored) {
                 res
                   .status(500)
                   .send({ message: "Error al crear el nuevo usuario." });
+                  console.log("No hay userStored");
+                  console.log(err);
               } else {
                 // res.status(200).send({ user: userStored });
                 res
