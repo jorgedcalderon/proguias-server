@@ -6,6 +6,7 @@ const Guia = require("../models/guia");
 
 function signUpGuia(req, res) {
     const guia = new Guia();
+    console.log("en sign up normal");
   
     const { name, lastName, email, password, repeatPassword } = req.body;
     guia.name = name;
@@ -34,6 +35,7 @@ function signUpGuia(req, res) {
             guia.save((err, userStored) => {
               if (err) {
                 res.status(500).send({ message: "Error del servidor." });
+                console.log("en sign up normal codifo 500");
                 console.log(err);
               } else {
                 if (!userStored) {
@@ -270,6 +272,7 @@ function getGuiasActive(req, res) {
 
   function signUpAdminGuia(req, res) {
     const guia = new Guia();
+    console.log("en sign up admin");
   
     const { name, lastname, email, role, password } = req.body;
     guia.name = name;
@@ -278,6 +281,7 @@ function getGuiasActive(req, res) {
     guia.role = role;
     guia.active = true;
     guia.url=`${lastname.toLowerCase()}-${name.toLowerCase()}`;
+    console.log(guia);
   
     if (!password) {
       res.status(500).send({ message: "La contraseña es obligatoria. " });
