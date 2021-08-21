@@ -165,7 +165,7 @@ function getGuiasActive(req, res) {
   
   function getAvatar(req, res) {
     const avatarName = req.params.avatarName;
-    const filePath = "./uploads/avatar/" + avatarName;
+    const filePath = "/mnt/volumen_proguias/uploads/avatar/" + avatarName;
   
     fs.exists(filePath, exists => {
       if (!exists) {
@@ -505,7 +505,7 @@ function subirCompe(req, res) {
 
 function getCompeDoc(req, res) {
   const compeName = req.params.compeName;
-  const filePath = "./uploads/competencias/" + compeName;
+  const filePath = "/mtn/volumen_proguias/uploads/competencias/" + compeName;
 
   fs.exists(filePath, exists => {
     if (!exists) {

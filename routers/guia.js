@@ -3,8 +3,8 @@ const GuiaController = require("../controllers/guia");
 const multipart = require("connect-multiparty");
 
 const md_auth = require("../middlewares/authenticated");
-const md_upload_avatar = multipart({ uploadDir: "./uploads/avatar" });
-const md_upload_compe = multipart({ uploadDir: "./uploads/competencias" });
+const md_upload_avatar = multipart({ uploadDir: "/mnt/volumen_proguias//uploads/avatar" });
+const md_upload_compe = multipart({ uploadDir: "/mnt/volumen_proguias/uploads/competencias" });
 
 const api = express.Router();
 
