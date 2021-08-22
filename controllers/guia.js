@@ -111,10 +111,12 @@ function getGuiasActive(req, res) {
   
   function uploadAvatar(req, res) {
     const params = req.params;
+    console.log("params de upload avatar");
+    console.log(params);
   
-    Guia.findById({ _id: params.id }, (err, userData) => {
+    Guia.findById({ "_id": params.id }, (err, userData) => {
       if (err) {
-        res.status(500).send({ message: "Error del servidor." });
+        res.status(500).send({ message: "Error quinientos." });
         console.log(err);
       } else {
         if (!userData) {
@@ -140,11 +142,11 @@ function getGuiasActive(req, res) {
             } else {
               user.avatar = fileName;
               Guia.findByIdAndUpdate(
-                { _id: params.id },
+                { "_id": params.id },
                 user,
                 (err, userResult) => {
                   if (err) {
-                    res.status(500).send({ message: "Error del servidor." });
+                    res.status(500).send({ message: "Error del upload findbyidandupdate." });
                   } else {
                     if (!userResult) {
                       res
