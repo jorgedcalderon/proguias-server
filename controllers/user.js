@@ -107,7 +107,7 @@ function getUsersActive(req, res) {
 
 function uploadAvatar(req, res, next) {
   const params = req.params;
-
+  console.log("UPLOADED AVATAR",req.file);
   User.findById({ _id: params.id }, (err, userData) => {
     if (err) {
       res.status(500).send({ message: "Error del servidor." });
