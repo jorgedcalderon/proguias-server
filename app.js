@@ -1,10 +1,10 @@
-require('dotenv').config();
+require("dotenv").config();
 const express = require("express");
 const bodyParser = require("body-parser");
-var logger = require('morgan');
+var logger = require("morgan");
 const app = express();
 const { API_VERSION } = require("./config");
-const cors = require('cors');
+const cors = require("cors");
 // Load routings
 
 // var whitelist = ["http:localhost:3000", "https://proguias.cl","http://proguias.cl"]
@@ -17,7 +17,7 @@ const cors = require('cors');
 //     }
 //   }
 // }
-app.use(cors());
+// app.use(cors());
 
 const authRoutes = require("./routers/auth");
 const userRoutes = require("./routers/user");
@@ -28,9 +28,9 @@ const courseRoutes = require("./routers/course");
 const postRoutes = require("./routers/post");
 const compeRoutes = require("./routers/competencias");
 
-app.use(logger('dev'));
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
+app.use(logger("dev"));
+app.use(bodyParser.urlencoded({ extended: false, limit: "50mb" }));
+app.use(bodyParser.json({ limit: "50mb" }));
 
 // Configure Header HTTP
 // app.use((req, res, next) => {
@@ -43,6 +43,24 @@ app.use(bodyParser.json());
 //   res.header("Allow", "GET, POST, OPTIONS, PUT, DELETE");
 //   next();
 // });
+app.use((req, res, next) => {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header(
+    "Access-Control-Allow-Headers",
+    "Authorization, X-API-KEY, Origin, X-Requested-With, Content-Type, Accept"
+  );
+  if(req.method === "OPTIONS"){
+    res.header("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, DELETE");
+  }
+  next();
+});
+
+// app.use((req, res, next) => {
+//   console.log(res.header['Access-Control-Allow-Headers']);
+//   console.log("REQUEST METHOD",req.method);
+//   next();
+// });
+
 
 // Router Basic
 app.use(`/api/${API_VERSION}`, authRoutes);
