@@ -17,8 +17,8 @@ const cors = require("cors");
 //     }
 //   }
 // }
-app.use(cors());
 app.options('*', cors())
+app.use(cors());
 const authRoutes = require("./routers/auth");
 const userRoutes = require("./routers/user");
 const guiaRoutes = require("./routers/guia");
@@ -55,11 +55,11 @@ app.use(bodyParser.json({ limit: "50mb" }));
 //   next();
 // });
 
-// app.use((req, res, next) => {
-//   console.log(res.header['Access-Control-Allow-Headers']);
-//   console.log("REQUEST METHOD",req.method);
-//   next();
-// });
+app.use((req, res, next) => {
+  console.log(res.header['Access-Control-Allow-Headers']);
+  console.log("REQUEST METHOD",req.method);
+  next();
+});
 
 
 // Router Basic
