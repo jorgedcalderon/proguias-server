@@ -1,6 +1,7 @@
+require('dotenv').config();
 const express = require("express");
 const bodyParser = require("body-parser");
-
+var logger = require('morgan');
 const app = express();
 const { API_VERSION } = require("./config");
 
@@ -14,6 +15,7 @@ const courseRoutes = require("./routers/course");
 const postRoutes = require("./routers/post");
 const compeRoutes = require("./routers/competencias");
 
+app.use(logger('dev'));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 

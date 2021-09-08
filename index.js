@@ -1,13 +1,13 @@
 const mongoose = require("mongoose");
 const app = require("./app");
 const port = process.env.PORT || 3500;
-const { API_VERSION, IP_SERVER, PORT_DB } = require("./config");
-
+const { API_VERSION, IP_SERVER, PORT_DB, MONGO_URI } = require("./config");
+const mongoURILocal = `mongodb://${IP_SERVER}:${PORT_DB}/proguias`;
 mongoose.set("useFindAndModify", false);
 mongoose.set("useCreateIndex", true);
 
 mongoose.connect(
-  `mongodb://${IP_SERVER}:${PORT_DB}/proguias`,
+  MONGO_URI,
   { useNewUrlParser: true, useUnifiedTopology: true },
   (err, res) => {
     if (err) {

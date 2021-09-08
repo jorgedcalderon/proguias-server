@@ -1,10 +1,11 @@
 const express = require("express");
 const GuiaController = require("../controllers/guia");
-const multipart = require("connect-multiparty");
+// const multipart = require("connect-multiparty");
 
 const md_auth = require("../middlewares/authenticated");
-const md_upload_avatar = multipart({ uploadDir: "/mnt/volumen_proguias/uploads/avatar" });
-const md_upload_compe = multipart({ uploadDir: "/mnt/volumen_proguias/uploads/competencias" });
+const { uploadAvatarMD, uploadCompeMD }= require('../middlewares/multer');
+// const md_upload_avatar = multipart({ uploadDir: "/mnt/volumen_proguias/uploads/avatar" });
+// const md_upload_compe = multipart({ uploadDir: "/mnt/volumen_proguias/uploads/competencias" });
 
 const api = express.Router();
 
@@ -27,10 +28,10 @@ api.get("/get-compe-doc/:compeName", GuiaController.getCompeDoc );
 
 api.put(
   "/upload-avatar-guia/:id",
-  [md_auth.ensureAuth, md_upload_avatar],
+  [md_auth.ensureAuth, uploadAvatarMD],
   GuiaController.uploadAvatar
 );
-api.put("/subir-compe-doc/:id/:idCompe", [md_auth.ensureAuth, md_upload_compe], GuiaController.subirCompe);
+api.put("/subir-compe-doc/:id/:idCompe", [md_auth.ensureAuth, uploadCompeMD], GuiaController.subirCompe);
 api.put("/update-guia/:id", [md_auth.ensureAuth], GuiaController.updateGuia);
 api.put(
   "/activate-guia/:id",
