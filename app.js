@@ -53,8 +53,8 @@ app.use(bodyParser.json({ limit: "50mb" }));
 //   }
 //   next();
 // });
-app.options('*', cors())
-app.use(cors());
+app.options('*', cors({origin:"*"}))
+app.use(cors({origin:"*"}));
 app.use((req, res, next) => {
   console.log(res.header['Access-Control-Allow-Headers']);
   console.log("REQUEST METHOD",req.method);
