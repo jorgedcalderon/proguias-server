@@ -5,19 +5,8 @@ var logger = require("morgan");
 const app = express();
 const { API_VERSION } = require("./config");
 const cors = require("cors");
+
 // Load routings
-
-// var whitelist = ["http:localhost:3000", "https://proguias.cl","http://proguias.cl"]
-// var corsOptions = {
-//   origin: function (origin, callback) {
-//     if (whitelist.indexOf(origin) !== -1) {
-//       callback(null, true)
-//     } else {
-//       callback(new Error('Not allowed by CORS'))
-//     }
-//   }
-// }
-
 const authRoutes = require("./routers/auth");
 const userRoutes = require("./routers/user");
 const guiaRoutes = require("./routers/guia");
@@ -42,24 +31,10 @@ app.use(bodyParser.json({ limit: "50mb" }));
 //   res.header("Allow", "GET, POST, OPTIONS, PUT, DELETE");
 //   next();
 // });
-// app.use((req, res, next) => {
-//   res.header("Access-Control-Allow-Origin", "*");
-//   res.header(
-//     "Access-Control-Allow-Headers",
-//     "Authorization, X-API-KEY, Origin, X-Requested-With, Content-Type, Accept"
-//   );
-//   if(req.method === "OPTIONS"){
-//     res.header("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, DELETE");
-//   }
-//   next();
-// });
+
 app.options('*', cors({origin:"*"}))
 app.use(cors({origin:"*"}));
-app.use((req, res, next) => {
-  console.log(res.header['Access-Control-Allow-Headers']);
-  console.log("REQUEST METHOD",req.method);
-  next();
-});
+
 
 
 // Router Basic
