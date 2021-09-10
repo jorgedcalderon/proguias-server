@@ -22,7 +22,7 @@ api.get("/get-guia/:url", GuiaController.getGuia);
 api.get("/get-guia-email/:email", GuiaController.getGuiaEmail);
 api.get("/get-avatar-guia/:avatarName", GuiaController.getAvatar);
 api.get("/get-guias-pag", GuiaController.getGuiasPag);
-api.get("/get-compe-doc/:compeName", GuiaController.getCompeDoc );
+api.get("/get-compe-doc/:compeName", GuiaController.getCompeDoc);
 
 
 

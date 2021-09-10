@@ -26,7 +26,7 @@ const uploadAvatar = multer({
   },
 });
 
-/* ****** Upload Compe  ***** */
+
 exports.uploadAvatarMD = (req, res, next) => {
   const upload = uploadAvatar.single("avatar");
 
@@ -40,9 +40,12 @@ exports.uploadAvatarMD = (req, res, next) => {
   });
 };
 
+/* ****** Upload Compe  ***** */
+const avatarCompeTypes = ["application/pdf"];
+
 const compeStorage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, "uploads/avatar");
+    cb(null, "uploads/competencias");
   },
   filename: function (req, file, cb) {
     const name = Date.now() + "_" + file.originalname;
@@ -53,12 +56,12 @@ const compeStorage = multer.diskStorage({
 const uploadCompe = multer({
   storage: compeStorage,
   fileFilter: function (req, file, cb) {
-    if (avatarMimeTypes.includes(file.mimetype)) {
+    if (avatarCompeTypes.includes(file.mimetype)) {
       return cb(null, true);
     }
     cb(
       new Error(
-        "La extension de la imagen no es valida. (Extensiones permitidas: .png y .jpg)"
+        "La extension de la documento no es valida. (Extensiones permitidas: .pdf)"
       )
     );
   },

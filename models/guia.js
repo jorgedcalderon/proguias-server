@@ -28,7 +28,6 @@ const GuiaSchema = Schema({
       name: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Compe',
-        unique: true
       },
       path: String,
       vigencia: Date,

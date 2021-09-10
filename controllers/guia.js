@@ -271,6 +271,7 @@ function signUpAdminGuia(req, res) {
   guia.email = email.toLowerCase();
   guia.role = role;
   guia.active = true;
+  guia.certs = [];
   guia.url = `${lastname.toLowerCase()}-${name.toLowerCase()}`;
   console.log(guia);
 
@@ -479,7 +480,7 @@ function subirCompe(req, res) {
 
 function getCompeDoc(req, res) {
   const compeName = req.params.compeName;
-  const filePath = "uploads/competencias" + compeName;
+  const filePath = "uploads/competencias/" + compeName;
 
   fs.exists(filePath, (exists) => {
     if (!exists) {
