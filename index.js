@@ -17,7 +17,7 @@ mongoose.connect(
 
       app.listen(port, () => {
         console.log("######################");
-        console.log("###### API REST ######");
+        console.log("###### API RESTO ######");
         console.log("######################");
         console.log(`http://${IP_SERVER}:${port}/api/${API_VERSION}/`);
       });
