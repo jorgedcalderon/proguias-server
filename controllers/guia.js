@@ -491,6 +491,35 @@ function getCompeDoc(req, res) {
   });
 }
 
+
+function certsPopuladas(req, res) {
+  const { id } = req.params;
+  console.log("en certs populadas get");
+
+  Guia.find({ _id: id }, { certs: 1 })
+    .populate("certs.name")
+    .exec(function (err, certs) {
+      if (err) {
+        res.status(500).send({
+          code: 500,
+          message: err,
+        });
+      } else {
+        if (!certs) {
+          res.status(404).send({
+            code: 404,
+            message: "No se han encontrado certificaciones",
+          });
+        } else {
+          res.status(200).send({
+            code: 200,
+            certs: certs[0].certs,
+          });
+        }
+      }
+    });
+}
+
 function getCerts(req, res) {
   const { id } = req.params;
   const { idCompe } = req.body;
@@ -520,41 +549,8 @@ function getCerts(req, res) {
   );
 }
 
-function certsPopuladas(req, res) {
-  const { id } = req.params;
 
-  Guia.find({ _id: id }, { certs: 1 })
-    .populate("certs.name")
-    .exec(function (err, certs) {
-      if (err) {
-        res.status(500).send({
-          code: 500,
-          message: err,
-        });
-      } else {
-        if (!certs) {
-          res.status(404).send({
-            code: 404,
-            message: "No se han encontrado certificaciones",
-          });
-        } else {
-          res.status(200).send({
-            certs: certs[0].certs,
-          });
-        }
-      }
-    });
-}
 
-// function borrarCompe(req, res) {
-//     const { id } = req.params;
-//     const { idCompe } = req.body;
-
-//     Guia.findOneAndUpdate({'_id': id, 'certs': {$elemMatch: {name: idCompe}}})
-// }
-
-// '_id': id, 'certs': {$elemMatch: {name: idCompe}}
-// $elemMatch: {'_id': id, 'certs.name': idCompe}
 
 module.exports = {
   signUpGuia,
@@ -577,8 +573,7 @@ module.exports = {
   subirCompe,
   getCompeDoc,
   getCerts,
-  certsPopuladas,
+  certsPopuladas
 };
 
-// Guia.findOneAndUpdate({'_id': id, 'certs': {$elemMatch: {name: idCompe}}},{$push: {'path': fileName}}, (err, resultado) => {
-//   if(err) {
+
